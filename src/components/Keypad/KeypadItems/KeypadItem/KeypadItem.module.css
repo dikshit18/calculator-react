@@ -1,0 +1,10 @@
+.keypadItem {
+  width: 6.5rem;
+  height: 6rem;
+  text-align: center;
+}
+
+.hover {
+  background-color: red;
+  color: green;
+}
