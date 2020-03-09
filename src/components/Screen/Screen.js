@@ -4,7 +4,8 @@ import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 const screen = props => (
   <Auxiliary>
     <div className={classes.Screen}>
-      <textarea readOnly value="hello <br>" className={classes.TextArea} />
+      <input type="text" value={props.digit} className={classes.TextArea} />
+      <input type="text" className={classes.TextArea} value={props.result} />
     </div>
   </Auxiliary>
 );

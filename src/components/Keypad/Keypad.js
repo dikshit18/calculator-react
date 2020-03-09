@@ -28,7 +28,9 @@ const keypad = props => {
     <Auxiliary>
       <div className={classes.Keypad}>
         {numbers.map(number => {
-          return <Button text={number} />;
+          return (
+            <Button text={number} key={number} keyPressed={props.keyPressed} />
+          );
         })}
       </div>
     </Auxiliary>

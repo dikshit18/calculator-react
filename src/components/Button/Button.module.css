@@ -20,3 +20,9 @@ input[type="text"]:focus {
 .Zero {
   width: 21.5rem;
 }
+.Focus {
+  transition: transform 300ms ease-in-out;
+  transition: 60ms ease-in-out;
+  background-color: rgb(144, 82, 222) !important;
+  border: none;
+}
