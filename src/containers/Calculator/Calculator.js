@@ -14,7 +14,8 @@ class Calculator extends Component {
       result: "",
       firstNumber: "",
       secondNumber: "",
-      operator: ""
+      operator: "",
+      displayNumber: ""
     };
   }
 
@@ -38,10 +39,14 @@ class Calculator extends Component {
         break;
     }
     this.setState({
+      firstNumber: result,
+      operator: "",
+      secondNumber: "",
       result,
-      firstNumber: result
+      digit: "",
+      keysArray: []
     });
-    console.log("Result is..", result);
+
     return result;
   }
 
@@ -59,27 +64,32 @@ class Calculator extends Component {
               allowedSymbols.includes(key)
             ) {
               keys.push(key);
+              const displayNumber = this.state.displayNumber;
               this.setState({
                 keyPressCode: key,
                 digit: keys.join(""),
-                keyPressed: key
+                keyPressed: key,
+                displayNumber: displayNumber + keys.join(""),
+                keysArray: keys
               });
             }
             allowedSymbols.forEach(element => {
               if (this.state.digit.includes(element)) {
                 const numbers = this.state.digit.split(element);
                 const alreadyPresentResult = this.state.result;
+                console.log(numbers);
                 this.setState({
                   firstNumber: alreadyPresentResult || numbers[0],
                   secondNumber: numbers[1],
                   operator: element
                 });
+
                 if (this.state.secondNumber) this.getResult();
               }
             });
           });
         })}
-        <Screen digit={this.state.digit} result={this.state.result} />
+        <Screen digit={this.state.displayNumber} result={this.state.result} />
 
         <Keypad
           keyPressCode={this.state.keyPressCode}
