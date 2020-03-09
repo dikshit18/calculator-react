@@ -25,12 +25,9 @@ class Calculator extends Component {
             }
           });
         })}
+        <Screen />
 
-        <Screen></Screen>
-        <br />
-        <br />
-        <br />
-        <Keypad keyPressCode={this.state.keyPressCode}></Keypad>
+        <Keypad />
       </div>
     );
   }

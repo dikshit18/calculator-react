@@ -1,4 +1,7 @@
 .Calculator {
-  max-width: 300vh;
-  margin: 0 auto;
+  border: 0.4rem solid none;
+  border-radius: 1rem;
+  margin: 10rem auto 0 auto;
+  width: 30rem;
+  overflow: hidden;
 }

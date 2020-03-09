@@ -1,0 +1,22 @@
+.Button {
+  width: 6.5rem;
+  height: 5.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: rgb(19, 32, 64);
+  color: rgb(247, 245, 238);
+  border: none;
+  font-size: 1.8rem;
+}
+
+input[type="text"]:hover,
+input[type="text"]:focus {
+  transition: transform 300ms ease-in-out;
+  transition: 60ms ease-in-out;
+  background-color: rgb(144, 82, 222) !important;
+  border: none;
+}
+
+.Zero {
+  width: 21.5rem;
+}
