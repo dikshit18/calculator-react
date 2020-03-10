@@ -29,7 +29,14 @@ const keypad = props => {
       <div className={classes.Keypad}>
         {numbers.map(number => {
           return (
-            <Button text={number} key={number} keyPressed={props.keyPressed} />
+            <Button
+              text={number}
+              key={number}
+              keyPressed={props.keyPressed}
+              clicked={props.clicked}
+              clear={props.clear}
+              delete={props.delete}
+            />
           );
         })}
       </div>

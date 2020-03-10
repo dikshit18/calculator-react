@@ -9,12 +9,13 @@
   font-size: 1.8rem;
 }
 
-input[type="text"]:hover,
-input[type="text"]:focus {
+.Button:hover,
+.Button:active {
   transition: transform 300ms ease-in-out;
   transition: 60ms ease-in-out;
   background-color: rgb(144, 82, 222) !important;
   border: none;
+  border-radius: 0rem;
 }
 
 .Zero {

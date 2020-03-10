@@ -9,52 +9,75 @@ class Calculator extends Component {
     super(props);
     this.state = {
       keyPressCode: "",
-      digit: "",
       keyPressed: "",
       result: "",
-      firstNumber: "",
-      secondNumber: "",
-      operator: "",
       displayNumber: ""
     };
   }
 
-  getResult() {
-    const firstNumber = Number(this.state.firstNumber);
-    const secondNumber = Number(this.state.secondNumber);
-    const operator = this.state.operator;
+  async calculateResult(stringExpression) {
+    //const stringExpression = this.state.displayNumber;
     let result;
-    switch (operator.toString()) {
-      case "/":
-        result = firstNumber / secondNumber;
-        break;
-      case "*":
-        result = firstNumber * secondNumber;
-        break;
-      case "+":
-        result = firstNumber + secondNumber;
-        break;
-      case "-":
-        result = firstNumber - secondNumber;
-        break;
+    try {
+      result = Function(`'use strict'; return (${stringExpression})`)();
+    } catch (e) {
+      console.log("Iam here");
+      const number = stringExpression;
+      let res;
+      try {
+        res = Function(
+          `'use strict'; return (${number.substring(0, number.length - 1)})`
+        )();
+      } catch (e) {}
+      console.log("Res is", res);
+
+      await this.setState({
+        result: res
+      });
     }
     this.setState({
-      firstNumber: result,
-      operator: "",
-      secondNumber: "",
       result
     });
-    console.log("result", result);
-    return result;
   }
+
+  clickButtonInitiator = text => {
+    const displayNumber = this.state.displayNumber;
+    const updatedDisplayNumber = displayNumber + text;
+    this.setState({
+      displayNumber: updatedDisplayNumber
+    });
+    this.calculateResult(updatedDisplayNumber);
+  };
+
+  clearState = async () => {
+    await this.setState({
+      keyPressCode: "",
+      keyPressed: "",
+      result: "",
+      displayNumber: ""
+    });
+  };
+  deleteLastItem = () => {
+    const displayNumber = this.state.displayNumber;
+    const updatedDisplayNumber = displayNumber.substring(
+      0,
+      displayNumber.length - 1
+    );
+    this.setState({
+      displayNumber: updatedDisplayNumber
+    });
+    this.calculateResult(updatedDisplayNumber);
+  };
 
   render() {
     return (
       <div className={classes.Calculator}>
         {document.addEventListener("DOMContentLoaded", () => {
           "use strict";
-          let keys = [],
-            counter = 0;
+          let keys = [];
+          // if (this.state.displayNumber.split("").length) {
+          //   keys = this.state.displayNumber.split("");
+          // }
           document.addEventListener("keypress", event => {
             const key = event.key;
             const keyCode = event.key.charCodeAt(0);
@@ -63,40 +86,11 @@ class Calculator extends Component {
               allowedSymbols.includes(key)
             ) {
               keys.push(key);
-              let displayNumber = this.state.displayNumber;
-              displayNumber += key;
+              let displayNumber = this.state.displayNumber + keys.join("");
               this.setState({ displayNumber });
+              this.calculateResult(displayNumber);
+              keys = [];
             }
-            allowedSymbols.forEach(element => {
-              let digit = keys.join("");
-
-              console.log("digit", digit);
-
-              if (digit.includes(element)) {
-                const numbers = digit.split(element);
-                const result = this.state.result;
-                const firstNumber = result || numbers[0];
-                const secondNumber = numbers[1];
-                // let buffer = secondNumber || 0;
-                // buffer += secondNumber;
-                console.log("FirstNo.", firstNumber);
-                console.log("Second.", secondNumber);
-                this.setState({
-                  firstNumber,
-                  secondNumber,
-                  operator: element
-                });
-                if (secondNumber) {
-                  this.getResult();
-                  //counter++;
-                  //if (counter === 3) {
-                  keys = [];
-                  keys.push(result || null);
-                  //}
-                  console.log(eval(this.state.displayNumber));
-                }
-              }
-            });
           });
         })}
         <Screen digit={this.state.displayNumber} result={this.state.result} />
@@ -104,7 +98,9 @@ class Calculator extends Component {
         <Keypad
           keyPressCode={this.state.keyPressCode}
           keyPressed={this.state.keyPressed}
-          digit={this.state.result}
+          clicked={this.clickButtonInitiator}
+          clear={this.clearState}
+          delete={this.deleteLastItem}
         />
       </div>
     );

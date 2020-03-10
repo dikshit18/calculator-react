@@ -19,7 +19,13 @@ const button = props => {
         ].join(" ")}
         //ToDo:
         //Try ref for this task of focusing
-
+        onClick={
+          props.text === "AC"
+            ? () => props.clear()
+            : props.text === "DEL"
+            ? () => props.delete()
+            : () => props.clicked(props.text)
+        }
         style={
           operators.includes(props.text)
             ? {
