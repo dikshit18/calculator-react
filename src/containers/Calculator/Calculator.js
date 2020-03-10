@@ -42,11 +42,9 @@ class Calculator extends Component {
       firstNumber: result,
       operator: "",
       secondNumber: "",
-      result,
-      digit: "",
-      keysArray: []
+      result
     });
-
+    console.log("result", result);
     return result;
   }
 
@@ -55,7 +53,8 @@ class Calculator extends Component {
       <div className={classes.Calculator}>
         {document.addEventListener("DOMContentLoaded", () => {
           "use strict";
-          let keys = [];
+          let keys = [],
+            counter = 0;
           document.addEventListener("keypress", event => {
             const key = event.key;
             const keyCode = event.key.charCodeAt(0);
@@ -64,27 +63,38 @@ class Calculator extends Component {
               allowedSymbols.includes(key)
             ) {
               keys.push(key);
-              const displayNumber = this.state.displayNumber;
-              this.setState({
-                keyPressCode: key,
-                digit: keys.join(""),
-                keyPressed: key,
-                displayNumber: displayNumber + keys.join(""),
-                keysArray: keys
-              });
+              let displayNumber = this.state.displayNumber;
+              displayNumber += key;
+              this.setState({ displayNumber });
             }
             allowedSymbols.forEach(element => {
-              if (this.state.digit.includes(element)) {
-                const numbers = this.state.digit.split(element);
-                const alreadyPresentResult = this.state.result;
-                console.log(numbers);
+              let digit = keys.join("");
+
+              console.log("digit", digit);
+
+              if (digit.includes(element)) {
+                const numbers = digit.split(element);
+                const result = this.state.result;
+                const firstNumber = result || numbers[0];
+                const secondNumber = numbers[1];
+                // let buffer = secondNumber || 0;
+                // buffer += secondNumber;
+                console.log("FirstNo.", firstNumber);
+                console.log("Second.", secondNumber);
                 this.setState({
-                  firstNumber: alreadyPresentResult || numbers[0],
-                  secondNumber: numbers[1],
+                  firstNumber,
+                  secondNumber,
                   operator: element
                 });
-
-                if (this.state.secondNumber) this.getResult();
+                if (secondNumber) {
+                  this.getResult();
+                  //counter++;
+                  //if (counter === 3) {
+                  keys = [];
+                  keys.push(result || null);
+                  //}
+                  console.log(eval(this.state.displayNumber));
+                }
               }
             });
           });
@@ -94,7 +104,7 @@ class Calculator extends Component {
         <Keypad
           keyPressCode={this.state.keyPressCode}
           keyPressed={this.state.keyPressed}
-          digit={this.state.digit}
+          digit={this.state.result}
         />
       </div>
     );
